@@ -1,0 +1,817 @@
+/* ==========================================================================
+   Zen (禅) UI Design System - 守破離 (Shuhari)
+   準拠仕様: 禅UIデザインシステム仕様書 (鳥の子色 / 素色 / 深墨 / 金茶)
+   ========================================================================== */
+
+:root {
+  /* 2.1 コアパレット（禅・ライトモード: 鳥の子色・素色・深墨） */
+  --zen-surface: #FAF9F6;          /* 鳥の子色 (ベース背景) */
+  --zen-surface-raised: #FFFFFF;   /* 素色 (カード・浮き出し要素・ナビバー) */
+  --zen-surface-hover: #F5F4EE;    /* わずかに温かみのあるホバー */
+  --zen-primary: #2D3A3A;          /* 深墨 (重要見出し・主アクセント) */
+  --zen-primary-hover: #1F2828;
+  --zen-secondary: #D2B48C;        /* 枯草色 / 生成り (アクセントタグ・選択) */
+  --zen-secondary-light: #F4EBE1;  /* 生成りライト */
+  --zen-text-primary: #1A1A1A;     /* 漆黒 (本文高コントラスト) */
+  --zen-text-secondary: #555555;   /* 薄墨 (説明文・補足) */
+  --zen-text-muted: #888888;       /* 灰墨 (注釈・ラベル) */
+  --zen-border: #E8E6DF;           /* 灰白 (1px繊細な境界線) */
+  --zen-border-focus: #2D3A3A;
+
+  /* 和の伝統色アクセント */
+  --zen-gold: #C5A059;             /* 金茶 (ハイライト・アンダーライン・保存CTA) */
+  --zen-vermilion: #B22222;        /* 深緋 (アクセント・注目バッジ) */
+  --zen-teal: #3B6978;             /* 青磁 (サブ・推論・知性) */
+  --zen-green: #4A6B4F;            /* 若草 / 翡翠 (100% Local安心バッジ) */
+
+  /* 旧変数互換マッピング */
+  --bg-primary: var(--zen-surface);
+  --bg-surface: var(--zen-surface-raised);
+  --bg-card: var(--zen-surface-hover);
+  --bg-card-hover: #EFECE3;
+  --border-color: var(--zen-border);
+  --border-accent: var(--zen-secondary);
+  --color-primary: var(--zen-primary);
+  --color-primary-dark: var(--zen-primary-hover);
+  --color-accent: var(--zen-gold);
+  --color-accent-light: var(--zen-secondary-light);
+  --color-urushi: var(--zen-vermilion);
+  --text-main: var(--zen-text-primary);
+  --text-muted: var(--zen-text-secondary);
+  --text-sub: var(--zen-text-muted);
+
+  /* 守・破・離 カラー */
+  --shu-color: #2E4A62;            /* 藍墨 (Ai-sumi) */
+  --ha-color: #5D3F6A;             /* 深紫 (Fukamurasaki) */
+  --ri-color: #8C6B1B;             /* 飴金茶 (Amakincha) */
+
+  /* シャドウ (仕様書 5.2 準拠) */
+  --shadow-sm: 0 1px 3px rgba(45, 58, 58, 0.04), 0 1px 2px rgba(45, 58, 58, 0.02);
+  --shadow-md: 0 4px 16px rgba(45, 58, 58, 0.06), 0 1px 3px rgba(45, 58, 58, 0.03);
+  --shadow-lg: 0 12px 32px rgba(45, 58, 58, 0.08), 0 2px 6px rgba(45, 58, 58, 0.04);
+  --device-shadow: 0 16px 40px rgba(45, 58, 58, 0.14);
+
+  /* タイポグラフィ */
+  --font-serif: "Shippori Mincho", "Noto Serif JP", serif;
+  --font-sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Cinzel", "Shippori Mincho", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* スペーシング */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --transition-normal: 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 2.2 漆 (Urushi) ダークモード設定 */
+[data-theme="dark"] {
+  --zen-surface: #141414;          /* 深みのある漆黒 */
+  --zen-surface-raised: #1C1A1A;   /* ほのかに赤みを帯びた黒漆 */
+  --zen-surface-hover: #262323;
+  --zen-primary: #E8ECEC;          /* 冴えた墨白 */
+  --zen-primary-hover: #FFFFFF;
+  --zen-secondary: #D4AF37;        /* 金箔色 */
+  --zen-secondary-light: #2A241E;
+  --zen-text-primary: #F0F2F2;     /* 和紙白 */
+  --zen-text-secondary: #A3AAB0;   /* 灰墨 */
+  --zen-text-muted: #768087;
+  --zen-border: #2E2929;           /* 漆境界線 */
+  --zen-border-focus: #D4AF37;
+  --zen-gold: #D4AF37;
+  --zen-vermilion: #C33C23;
+  --zen-teal: #4D8B9E;
+  --zen-green: #3D9B6E;
+
+  --bg-primary: #141414;
+  --bg-surface: #1C1A1A;
+  --bg-card: #262323;
+  --bg-card-hover: #2E2B2B;
+  --border-color: #2E2929;
+  --border-accent: #D4AF37;
+  --color-primary: #E8ECEC;
+  --color-primary-dark: #FFFFFF;
+  --color-accent: #D4AF37;
+  --color-accent-light: #2A241E;
+  --color-urushi: #C33C23;
+  --text-main: #F0F2F2;
+  --text-muted: #A3AAB0;
+  --text-sub: #768087;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --device-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--zen-surface);
+  color: var(--zen-text-primary);
+  line-height: 1.85;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 12% 10%, rgba(197, 160, 89, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 88% 70%, rgba(45, 58, 58, 0.04) 0%, transparent 50%);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--zen-primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: var(--zen-gold);
+}
+
+/* ==========================================================================
+   Navigation Bar (画面上部固定 スティッキーグラスモーフィズム)
+   ========================================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--zen-border);
+  padding: 14px 24px;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+[data-theme="dark"] .navbar {
+  background: rgba(28, 26, 26, 0.92);
+}
+
+.nav-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.nav-logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--zen-border);
+  box-shadow: var(--shadow-sm);
+  background: var(--zen-surface-raised);
+  object-fit: contain;
+}
+
+.nav-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--zen-primary);
+}
+
+.nav-sub {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--zen-gold);
+  margin-left: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav-links a {
+  color: var(--zen-text-primary);
+}
+
+.nav-links a:hover {
+  color: var(--zen-gold);
+}
+
+.nav-back-link {
+  font-weight: 600;
+  color: var(--zen-gold) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ボタン */
+.btn-cta {
+  background-color: var(--zen-primary);
+  color: #FFFFFF !important;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--zen-primary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cta:hover {
+  background-color: var(--zen-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: #FFFFFF !important;
+}
+
+.btn-secondary {
+  border: 1px solid var(--zen-border);
+  background: var(--zen-surface-raised);
+  color: var(--zen-primary);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--zen-gold);
+  color: var(--zen-gold);
+  background: var(--zen-surface-hover);
+  transform: translateY(-2px);
+}
+
+/* テーマ切り替えボタン */
+.theme-toggle-btn {
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--zen-text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--zen-surface-hover);
+  border-color: var(--zen-gold);
+  color: var(--zen-gold);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  max-width: 1140px;
+  margin: 50px auto 80px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 50px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  color: var(--zen-primary);
+  margin-bottom: 22px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-badge span {
+  color: var(--zen-gold);
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  color: var(--zen-primary);
+}
+
+.hero-title span {
+  color: var(--zen-gold);
+  border-bottom: 2px solid var(--zen-gold);
+  padding-bottom: 2px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--zen-text-secondary);
+  margin-bottom: 34px;
+  line-height: 1.95;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero-actions .btn-cta {
+  padding: 13px 30px;
+  font-size: 15px;
+}
+
+.hero-actions .btn-secondary {
+  padding: 12px 24px;
+  font-size: 14.5px;
+}
+
+/* Device Mockup Frame */
+.device-mockup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.device-mockup {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 500 / 905;
+  background: var(--zen-surface-raised);
+  border-radius: 28px;
+  padding: 7px;
+  border: 2px solid var(--zen-border);
+  box-shadow: var(--device-shadow);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.device-mockup:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--zen-gold);
+}
+
+.device-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background-color: var(--zen-surface);
+  display: flex;
+}
+
+.device-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   Concept Section (守・破・離)
+   ========================================================================== */
+.section {
+  padding: 90px 24px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: var(--zen-gold);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+  color: var(--zen-primary);
+}
+
+.section-desc {
+  text-align: center;
+  color: var(--zen-text-secondary);
+  max-width: 680px;
+  margin: 0 auto 50px auto;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.concept-card {
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  border-radius: 14px;
+  padding: 32px 24px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.concept-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--zen-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.concept-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 14px 14px 0 0;
+}
+
+.card-shu::before { background: var(--shu-color); }
+.card-ha::before { background: var(--ha-color); }
+.card-ri::before { background: var(--ri-color); }
+
+.concept-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  background: var(--zen-surface);
+  border: 1px solid var(--zen-border);
+}
+
+.card-shu .concept-badge {
+  color: var(--shu-color);
+  border-color: rgba(46, 74, 98, 0.3);
+}
+
+.card-ha .concept-badge {
+  color: var(--ha-color);
+  border-color: rgba(93, 63, 106, 0.3);
+}
+
+.card-ri .concept-badge {
+  color: var(--ri-color);
+  border-color: rgba(140, 107, 27, 0.3);
+}
+
+.concept-card h3 {
+  font-size: 18.5px;
+  font-weight: 700;
+  color: var(--zen-primary);
+  margin-bottom: 12px;
+  font-family: var(--font-serif);
+}
+
+.concept-card p {
+  font-size: 14px;
+  color: var(--zen-text-secondary);
+  line-height: 1.8;
+}
+
+/* ==========================================================================
+   Key Features Showcase
+   ========================================================================== */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  margin-top: 30px;
+}
+
+.feature-item {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 50px;
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:nth-child(even) {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.feature-item:nth-child(even) .feature-image-col {
+  order: 1;
+}
+
+.feature-item:nth-child(even) .feature-text-col {
+  order: 2;
+}
+
+.feature-item:hover {
+  border-color: var(--zen-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-category {
+  font-size: 12px;
+  color: var(--zen-gold);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.feature-text-col h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--zen-primary);
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+.feature-text-col p {
+  font-size: 14.5px;
+  color: var(--zen-text-secondary);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.feature-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--zen-text-primary);
+}
+
+.feature-points li::before {
+  content: "✦";
+  color: var(--zen-gold);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Sub Features Grid */
+.sub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.sub-card {
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.sub-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--zen-gold);
+  background: var(--zen-surface-hover);
+}
+
+.sub-icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.sub-card h4 {
+  font-size: 16.5px;
+  color: var(--zen-primary);
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-family: var(--font-serif);
+}
+
+.sub-card p {
+  font-size: 13.5px;
+  color: var(--zen-text-secondary);
+  line-height: 1.7;
+}
+
+/* Privacy & Standalone Box */
+.privacy-box {
+  background: var(--zen-surface-raised);
+  border: 1px solid var(--zen-border);
+  border-left: 6px solid var(--zen-gold);
+  border-radius: 14px;
+  padding: 44px;
+  margin: 60px auto;
+  max-width: 960px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.privacy-box h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--zen-primary);
+  margin-bottom: 14px;
+}
+
+.privacy-box p {
+  font-size: 15px;
+  color: var(--zen-text-secondary);
+  max-width: 740px;
+  margin: 0 auto 28px auto;
+  line-height: 1.9;
+}
+
+.privacy-tags {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tag-item {
+  background: var(--zen-surface);
+  border: 1px solid var(--zen-border);
+  color: var(--zen-primary);
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Footer (Shuhari 準拠 統一仕様) */
+footer {
+  background: var(--zen-surface-raised);
+  border-top: 1px solid var(--zen-border);
+  padding: 60px 24px 40px 24px;
+  margin-top: 60px;
+  transition: background-color var(--transition-normal);
+}
+
+.footer-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--zen-border);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--zen-border);
+}
+
+.footer-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--zen-primary);
+}
+
+.footer-tagline {
+  font-size: 12px;
+  color: var(--zen-text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+.footer-bottom {
+  max-width: 1140px;
+  margin: 24px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--zen-text-muted);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-item,
+  .feature-item:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-item:nth-child(even) .feature-image-col {
+    order: 0;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .device-mockup {
+    max-width: 280px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
