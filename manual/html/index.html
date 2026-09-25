@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>守破離 (Shuhari) - ユーザー操作マニュアル</title>
+  <style>
+    :root {
+      /* 守破離 公式「禅 (Zen)」テーマ パレット */
+      --bg-primary: #F4F1EA;       /* 和紙の風合いを帯びた淡い生成り (外側背景) */
+      --bg-surface: #FAF9F6;       /* 禅公式 サーフェス (オフホワイト・鳥の子色) */
+      --bg-card: #F0EDE6;          /* カード・枠内背景 (薄鈍色・生成りグレー) */
+      --border-color: #D8D2C6;     /* 繊細な和風の境界線 */
+      --color-primary: #2D3A3A;    /* 墨色 (Sumiiro) - 主見出し・ブランドアクセント */
+      --color-accent: #B88E56;     /* 落ち着いた金茶・枯草ベージュ (アクセント) */
+      --color-urushi: #C33C23;     /* 本朱 (朱色アクセント) */
+      --text-main: #1A1A1A;        /* 墨文字 (主テキスト) */
+      --text-muted: #5A6065;       /* 鈍色・薄墨 (副テキスト・キャプション) */
+      --table-header: #E8E3D8;     /* 表ヘッダー背景 */
+      --code-bg: #EAE5DA;          /* コード・インライン枠 */
+      --shadow: 0 4px 20px rgba(45, 58, 58, 0.08); /* 柔らかな陰影 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.8;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      background-color: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      padding: 48px;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 28px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header-text h1 {
+      font-size: 26px;
+      color: var(--color-primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .header-text p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Top Navigation bar */
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .btn-top {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-surface);
+      color: var(--color-primary);
+    }
+    .btn-top:hover {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
+
+    /* Table of Contents */
+    .toc {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+      color: var(--color-primary);
+      border-left: 4px solid var(--color-accent);
+      padding-left: 10px;
+    }
+    .toc ul {
+      list-style-type: none;
+      padding-left: 4px;
+    }
+    .toc li {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .toc a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc a:hover {
+      color: var(--color-accent);
+      text-decoration: underline;
+    }
+    .toc-sub {
+      padding-left: 20px;
+      margin-top: 4px;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 22px;
+      color: var(--color-primary);
+      border-bottom: 1.5px solid var(--border-color);
+      padding-bottom: 8px;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    h2::before {
+      content: "";
+      position: absolute;
+      bottom: -1.5px;
+      left: 0;
+      width: 48px;
+      height: 2.5px;
+      background-color: var(--color-accent);
+    }
+
+    h3 {
+      font-size: 18px;
+      color: var(--color-primary);
+      margin-top: 28px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3::before {
+      content: "✦";
+      color: var(--color-accent);
+      font-size: 14px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      font-size: 16.5px;
+      color: var(--text-main);
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-bottom: 22px;
+      padding-left: 26px;
+      font-size: 16.5px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    code {
+      background-color: var(--code-bg);
+      color: var(--color-primary);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 14.5px;
+      font-family: Consolas, monospace;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Image Card */
+    .img-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 24px 0 32px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .img-card img {
+      max-width: 100%;
+      height: auto;
+      max-height: 500px;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(45, 58, 58, 0.15);
+      display: block;
+      margin: 0 auto;
+      border: 1px solid #C8C2B6;
+    }
+    .img-caption {
+      margin-top: 14px;
+      font-size: 14.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* 2 Column Image Grid for Settings */
+    .img-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 32px 0;
+    }
+    .img-grid-2 .img-card {
+      margin: 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px 0;
+      font-size: 15.5px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      text-align: left;
+    }
+    th {
+      background-color: var(--table-header);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: var(--bg-card);
+    }
+
+    /* Q&A Section */
+    .qa-box {
+      margin-bottom: 24px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px 22px;
+    }
+    .qa-q {
+      font-weight: bold;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .qa-q::before {
+      content: "Q";
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: #fff;
+      font-size: 13px;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 50%;
+    }
+    .qa-a {
+      font-size: 16px;
+      color: var(--text-main);
+      padding-left: 34px;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      margin-top: 60px;
+      padding-top: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px 18px;
+      }
+      .img-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="top-nav">
+      <a href="../../index.html" class="btn-top">← 紹介ページへ戻る</a>
+      <a href="http://alirex-labs:8080/shuhari/#/home" class="btn-top" target="_blank">Web版アプリを開く ↗</a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <img src="../../images/app_icon.png" alt="守破離 アイコン" class="header-logo">
+      <div class="header-text">
+        <h1>守破離 (Shuhari) ユーザー操作マニュアル</h1>
+        <p>武道・芸事の修練と内省を深める次世代稽古ノートアプリ</p>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <h2>目次</h2>
+      <ul>
+        <li><a href="#section1">1. アプリ概要・コンセプト</a></li>
+        <li><a href="#section2">2. 画面構成・共通ナビゲーション</a></li>
+        <li><a href="#section3">3. ホーム画面（稽古カレンダー）の使い方</a></li>
+        <li>
+          <a href="#section4">4. 便利なAppBarメニュー機能（右上 ⋮）</a>
+          <ul class="toc-sub">
+            <li><a href="#section4-1">4.1 稽古の検索・絞り込み</a></li>
+            <li><a href="#section4-2">4.2 稽古の便り（AI定期レポート）</a></li>
+            <li><a href="#section4-3">4.3 テキストからAI一括作成（LINE・連絡網流し込み）</a></li>
+          </ul>
+        </li>
+        <li><a href="#section5">5. 稽古予定・実績の登録手順</a></li>
+        <li><a href="#section6">6. 稽古詳細・AI分析・共有</a></li>
+        <li><a href="#section7">7. 課題リストの管理</a></li>
+        <li><a href="#section8">8. 備忘録（メモ）の管理</a></li>
+        <li>
+          <a href="#section9">9. 設定画面（カスタマイズ・プロフィール・データ管理）</a>
+          <ul class="toc-sub">
+            <li><a href="#section9-1">9.1 プロフィール管理（デジタル名刺）</a></li>
+            <li><a href="#section9-2">9.2 基本設定・AI連携設定（BYOK）</a></li>
+            <li><a href="#section9-3">9.3 データ管理（エクスポート・復元・バックアップ）</a></li>
+          </ul>
+        </li>
+        <li><a href="#section10">10. よくある質問・トラブルシューティング</a></li>
+      </ul>
+    </div>
+
+    <!-- Section 1 -->
+    <h2 id="section1">1. アプリ概要・コンセプト</h2>
+    <p>
+      「守破離（Shuhari）」は、日本の武道・芸道における修練の三段階「守・破・離」の精神に基づき、日々の稽古予定・実績・指導内容・気づきを克明に記録し、AIの力によって客観的な振り返りと課題抽出を支援するアプリケーションです。
+    </p>
+    <ul>
+      <li><strong>ローカルファースト（スタンドアロン）</strong>: アカウント登録やログインなしで、起動後すぐに使い始めることができます。データは端末内の安全なローカル領域（Web版はブラウザのIndexedDB）に保存されます。</li>
+      <li><strong>BYOK（Bring Your Own Key）対応</strong>: Gemini、OpenAI、Claude、あるいは自前ローカルLLM（Ollama等）のAPIキーをご自身で設定し、プライベートかつ自由なAI分析が可能です。</li>
+      <li><strong>禅・和風の洗練されたUI</strong>: 稽古の集中を妨げない、墨色と静寂を基調としたデザイン。</li>
+    </ul>
+
+    <!-- Section 2 -->
+    <h2 id="section2">2. 画面構成・共通ナビゲーション</h2>
+    <p>
+      アプリ画面下部には、いつでも主要機能へ切り替えられる<strong>ボトムナビゲーションバー</strong>が配置されています。<br>
+      また、ホーム画面の右上には各種機能を集約した<strong>メニューボタン（`⋮`）</strong>が用意されています。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/01_home_screen.png" alt="ホーム画面">
+      <div class="img-caption">図2-1: ホーム画面（ボトムナビゲーション＆AppBar）</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ナビゲーション項目</th>
+          <th>アイコン</th>
+          <th>主な機能</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>稽古（ホーム）</strong></td>
+          <td>カレンダー</td>
+          <td>月間カレンダーで稽古予定・実績を確認・選択</td>
+        </tr>
+        <tr>
+          <td><strong>課題</strong></td>
+          <td>チェックリスト</td>
+          <td>AIが抽出した課題や手動登録した課題の進捗管理</td>
+        </tr>
+        <tr>
+          <td><strong>備忘録</strong></td>
+          <td>ノート</td>
+          <td>日常のメモや覚え書き、次回稽古に向けたToDo管理</td>
+        </tr>
+        <tr>
+          <td><strong>メニュー（右上 `⋮`）</strong></td>
+          <td>縦三点（`⋮`）</td>
+          <td>稽古検索、稽古の便り（AIレポート）、AI一括作成、アプリ設定（⚙️）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 3 -->
+    <h2 id="section3">3. ホーム画面（稽古カレンダー）の使い方</h2>
+    <p>
+      ホーム画面は、月間の稽古スケジュールと該当日の一覧を確認する中心画面です。
+    </p>
+
+    <h3>3.1 カレンダーの操作</h3>
+    <ul>
+      <li><strong>年月ナビゲーション</strong>: 画面上部の左右矢印（<code>＜</code> / <code>＞</code>）をタップすると、前月・翌月へ切り替わります。</li>
+      <li><strong>「今日」ボタン</strong>: 他の月を表示していても、ワンタップで今月の今日の日付へ戻ることができます。</li>
+      <li><strong>月／週 切り替え</strong>: 右上の「月 / 週」ボタンで月間表示と週間表示を瞬時に切り替え可能です。</li>
+      <li><strong>日付セル</strong>: 各日付をタップすると、その日に登録されている稽古カードが画面下部に展開されます。
+        <ul>
+          <li><strong>稽古バッジ</strong>: 予定が登録されている日付には、流派・ジャンルのカラーラベルが表示されます。</li>
+          <li><strong>表示行数</strong>: 設定画面でカレンダー内のタイトル表示行数を「2行」「3行」「4行」から自由に切り替え可能です。</li>
+        </ul>
+      </li>
+      <li><strong>新規登録（＋ボタン）</strong>: 画面右下の浮遊アクションボタン（FAB）をタップすると、稽古予定・実績の作成画面へ進みます。</li>
+    </ul>
+
+    <!-- Section 4 -->
+    <h2 id="section4">4. 便利なAppBarメニュー機能（右上 ⋮）</h2>
+    <p>
+      ホーム画面右上の縦三点リーダー（<code>⋮</code>）をタップすると、日々の稽古や振り返りを強力にサポートするメニューが開きます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/01_home_menu_screen.png" alt="メニュー展開画面">
+      <div class="img-caption">図4-1: ホーム画面のAppBarメニュー展開（検索・便り・AI一括作成・設定）</div>
+    </div>
+
+    <h3 id="section4-1">4.1 稽古の検索・絞り込み</h3>
+    <p>
+      過去の稽古記録やこれからの予定を条件に応じて素早く検索できます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/05_schedule_search_screen.png" alt="稽古検索画面">
+      <div class="img-caption">図4-2: 稽古記録の検索・絞り込み画面</div>
+    </div>
+
+    <ul>
+      <li><strong>フリーワード検索</strong>: タイトル、メモ、道場・稽古場所名などのキーワードで検索。</li>
+      <li><strong>流派・ジャンル絞り込み</strong>: 「居合道」「剣道」など特定の流派のみを抽出。</li>
+      <li><strong>星評価フィルター</strong>: ★4以上、★5のみなど、会心の稽古や反省点を絞り込み。</li>
+      <li><strong>期間指定</strong>: 全期間、直近1ヶ月、今年など期間を指定して抽出。</li>
+    </ul>
+
+    <h3 id="section4-2">4.2 稽古の便り（AI定期レポート）</h3>
+    <p>
+      月末や週末に、蓄積された稽古記録や課題の克服状況をAIが多角的に分析し、「稽古の伴走者からの手紙」として届けてくれる機能です。
+    </p>
+    <ul>
+      <li><strong>総評と励まし</strong>: 師範や伴走者のような温かい語り口で日々の精進を振り返り。</li>
+      <li><strong>成長の手応え（星評価推移グラフ）</strong>: 稽古の自己評価の推移がグラフで可視化されます。</li>
+      <li><strong>未読通知</strong>: 新しい便りが届くと、右上メニューに赤丸バッジでお知らせします。</li>
+    </ul>
+
+    <h3 id="section4-3">4.3 テキストからAI一括作成（LINE・連絡網流し込み）</h3>
+    <p>
+      道場の連絡網やLINEグループ、メール等に届いた稽古日程のテキストをそのまま貼り付けるだけで、AIが日程・時間・場所・ジャンルを自動抽出してカレンダーへ一括登録します。
+    </p>
+    <ul>
+      <li><strong>重複予定の自動除外</strong>: 既にカレンダーに登録されている予定と日時が重複する場合、自動で検知して二重登録を防ぎます。</li>
+      <li><strong>終日予定への自動対応</strong>: 時間が明記されていない予定も「終日予定」としてスマートに登録されます。</li>
+    </ul>
+
+    <!-- Section 5 -->
+    <h2 id="section5">5. 稽古予定・実績の登録手順</h2>
+    <p>
+      右下の「＋」ボタンをタップすると、登録画面が表示されます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/02_schedule_create_screen.png" alt="稽古作成画面">
+      <div class="img-caption">図5-1: 稽古予定・実績の作成画面</div>
+    </div>
+
+    <h3>5.1 入力項目</h3>
+    <ol>
+      <li><strong>日付と時間帯</strong>:
+        <ul>
+          <li>カレンダーから日付を選択します。</li>
+          <li>稽古の開始時刻・終了時刻を設定します（時間未設定の場合は終日予定になります）。</li>
+        </ul>
+      </li>
+      <li><strong>定期予定（繰り返し登録）</strong>:
+        <ul>
+          <li>スイッチをONにすると、毎週決まった曜日の定期稽古を一括して複数週登録できます。</li>
+        </ul>
+      </li>
+      <li><strong>ジャンル・流派タグ</strong>:
+        <ul>
+          <li>登録済みの流派・ジャンル（居合道、剣道、弓道、合気道など）を選択します。右上の「新規追加」から新しい流派も追加可能です。</li>
+        </ul>
+      </li>
+      <li><strong>稽古テーマ・タイトル</strong>:
+        <ul>
+          <li>例: 「基本稽古・形稽古」「全日本剣道連盟居合」「指導対局」など。</li>
+        </ul>
+      </li>
+      <li><strong>場所・道場名</strong>:
+        <ul>
+          <li>例: 「市民武道館」「白虎会道場」「自宅」など。</li>
+        </ul>
+      </li>
+      <li><strong>事前メモ・本日の目標</strong>:
+        <ul>
+          <li>稽古に向かう前に意識したいテーマ（例：「抜刀時の柄頭の位置と鞘引きの連動を意識する」など）を記録しておけます。</li>
+        </ul>
+      </li>
+      <li><strong>稽古の自己評価（★1〜5）</strong>:
+        <ul>
+          <li>※日付が「当日」または「過去」の場合に展開されます。タップで★1〜5段階の星評価を直感的に記録できます。</li>
+        </ul>
+      </li>
+      <li><strong>稽古メモ（実績・指導内容）</strong>:
+        <ul>
+          <li>※当日・過去日の場合に展開されます。指導者から受けたアドバイス、手応え、反省点などを自由に入力します。</li>
+          <li><strong>音声入力対応</strong>: マイクアイコンをタップすると、音声入力により稽古直後でも素早く記録できます。</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>5.2 保存</h3>
+    <p>
+      画面右上のチェックボタン（または下部の保存ボタン）を押すと、即座にローカルに保存されます。
+    </p>
+
+    <!-- Section 6 -->
+    <h2 id="section6">6. 稽古詳細・AI分析・共有</h2>
+    <p>
+      カレンダー下部に表示される稽古カードをタップすると、稽古の詳細画面が表示されます。
+    </p>
+
+    <h3>6.1 AIによる自動分析</h3>
+    <p>
+      稽古メモを入力して保存すると、設定したAI（Gemini/OpenAI/Claude/ローカルLLM）がメモの内容を自動解析します：
+    </p>
+    <ul>
+      <li><strong>稽古の要約</strong>: 何を行い、何を感じたかを的確に整理。</li>
+      <li><strong>助言・アドバイス</strong>: 指導内容や反省点から、次回意識すべきポイントを提案。</li>
+      <li><strong>課題の自動抽出</strong>: 克服すべき弱点や継続練習項目が自動的に「課題リスト」へ連携・追加されます。</li>
+    </ul>
+
+    <h3>6.2 予定の変更・複製</h3>
+    <ul>
+      <li><strong>日付の移動</strong>: カレンダーアイコンをタップすると、実績メモや評価を保持したまま別日へ予定を移動できます。</li>
+      <li><strong>予定の複製</strong>: 右上メニューから「予定を複製」を選ぶと、基本情報（時間・場所・ジャンル）をコピーして翌週などの新しい予定を素早く作成できます。</li>
+    </ul>
+
+    <h3>6.3 AIによるSNS投稿文自動生成</h3>
+    <p>
+      右上メニュー（または画面下のボタン）から「SNS記事を作成」を選択すると、その日の稽古実績や自己評価をもとに、X（Twitter）やInstagram向けに魅力的なハッシュタグ付き投稿文をAIが自動作成します。OS標準の共有シートからワンタップで投稿できます。
+    </p>
+
+    <!-- Section 7 -->
+    <h2 id="section7">7. 課題リストの管理</h2>
+    <p>
+      ボトムナビゲーションの「課題」タブを選択すると、修練における課題一覧が表示されます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/03_task_list_screen.png" alt="課題リスト画面">
+      <div class="img-caption">図7-1: 課題リスト画面（未完了／解決済みタブ切り替え）</div>
+    </div>
+
+    <h3>7.1 課題の確認と操作</h3>
+    <ul>
+      <li><strong>未完了 / 解決済みの切り替え</strong>: 画面上部のタブで、現在取り組んでいる課題と達成済みの課題を瞬時に切り替えられます。</li>
+      <li><strong>重点度順ソート</strong>: 右上の「重点度順」ボタンで、重要度の高い課題を優先表示できます。</li>
+      <li><strong>スワイプ操作</strong>:
+        <ul>
+          <li><strong>右スワイプ</strong>: 課題を「解決済み」に移動します。</li>
+          <li><strong>左スワイプ</strong>: 課題の削除、または未完了への差し戻し。</li>
+          <li>スワイプ直後は画面下に「元に戻す（Undo）」通知が表示されるため、誤操作時も安心です。</li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Section 8 -->
+    <h2 id="section8">8. 備忘録（メモ）の管理</h2>
+    <p>
+      ボトムナビゲーションの「備忘録」タブを選択すると、日々のToDoや覚え書きを管理できます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/04_memo_list_screen.png" alt="備忘録一覧画面">
+      <div class="img-caption">図8-1: 備忘録・タスク管理画面</div>
+    </div>
+
+    <h3>8.1 備忘録の使い方</h3>
+    <ul>
+      <li><strong>簡易メモの登録</strong>: 「防具の手入れ」「次回までに形の手順を確認」など、思いついた時に素早くメモを残せます。</li>
+      <li><strong>期日設定</strong>: 期日を設定しておくことで、稽古日までに完了すべき準備を整理できます。</li>
+      <li><strong>完了チェック</strong>: チェックボックスをタップするだけで、完了状態へ切り替えられます。</li>
+    </ul>
+
+    <!-- Section 9 -->
+    <h2 id="section9">9. 設定画面（カスタマイズ・プロフィール・データ管理）</h2>
+    <p>
+      ホーム画面右上の<strong>メニューボタン（`⋮`）＞「アプリ設定」</strong>をタップすると、アプリ全体の設定画面が開きます。
+    </p>
+
+    <h3 id="section9-1">9.1 プロフィール管理（デジタル名刺）</h3>
+    <p>
+      設定画面の最上部にある「修練者（デジタル名刺）」をタップすると、ご自身のプロフィール画面が開きます。
+    </p>
+
+    <div class="img-card">
+      <img src="../images/10_profile_screen.png" alt="プロフィール画面">
+      <div class="img-caption">図9-1: デジタル名刺プロフィール画面</div>
+    </div>
+
+    <ul>
+      <li><strong>流派・段位・所属の登録</strong>: 居合道、剣道などの各流派ごとに段位や道場名、今年の目標を登録可能。</li>
+      <li><strong>AI伴走者へのコンテキスト連携</strong>: 登録されたプロフィール情報は、日々の稽古メモをAIが分析する際にも参照され、あなたの現在のレベルや目標に応じた最適な助言が生成されます。</li>
+    </ul>
+
+    <h3 id="section9-2">9.2 基本設定・AI連携設定（BYOK）</h3>
+    <p>
+      設定画面上部では、アプリの見た目やAIの動作環境を設定します。
+    </p>
+
+    <div class="img-grid-2">
+      <div class="img-card">
+        <img src="../images/09_settings_screen_1.png" alt="設定画面（上部）">
+        <div class="img-caption">図9-2: 設定画面（上部：テーマ・AI連携）</div>
+      </div>
+      <div class="img-card">
+        <img src="../images/09_settings_screen_2.png" alt="設定画面（下部）">
+        <div class="img-caption">図9-3: 設定画面（下部：バックアップ・復元）</div>
+      </div>
+    </div>
+
+    <ol>
+      <li><strong>UIテーマ設定</strong>:
+        <ul>
+          <li>「禅（Zen・和紙調）」「漆（Urushi・ダークモード）」「モダン（Modern・クリーン）」の3つのデザインテーマから好みの色調を選択可能です。</li>
+        </ul>
+      </li>
+      <li><strong>稽古ジャンル設定・並び替え</strong>:
+        <ul>
+          <li>居合道、剣道などの新規追加や、カレンダー・選択欄での表示順序を自由に並び替えできます。</li>
+        </ul>
+      </li>
+      <li><strong>カレンダー予定表示行数・文字サイズ</strong>:
+        <ul>
+          <li>1日あたりのタイトル表示行数を「2行 / 3行 / 4行」から調整できます。文字サイズも変更可能です。</li>
+        </ul>
+      </li>
+      <li><strong>AI連携設定（BYOK）</strong>:
+        <ul>
+          <li><strong>プロバイダ選択</strong>: Google Gemini、OpenAI、Anthropic Claude、ローカルLLM（Ollama等）から選択。</li>
+          <li><strong>APIキー入力</strong>: 暗号化された安全な領域に保存されます。</li>
+          <li><strong>接続テスト</strong>: ボタンを押すだけで、APIキーが正しく動作しているかその場で確認できます。</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="section9-3">9.3 データ管理（エクスポート・復元・バックアップ）</h3>
+    <p>
+      設定画面を下部にスクロールすると、大切なデータのバックアップと復元に関する設定項目が用意されています。
+    </p>
+    <ol>
+      <li><strong>言語設定 (Language)</strong>:
+        <ul>
+          <li>システム自動 / 日本語 / 英語 を切り替えられます。</li>
+        </ul>
+      </li>
+      <li><strong>データのエクスポート</strong>:
+        <ul>
+          <li><strong>CSV形式</strong>: スプレッドシートやExcelで一覧分析できる形式で書き出します。</li>
+          <li><strong>JSON形式（完全バックアップ）</strong>: すべての稽古記録・課題・メモ・ジャンルを完全な状態でバックアップファイルとして保存します。</li>
+        </ul>
+      </li>
+      <li><strong>データのインポート（復元）</strong>:
+        <ul>
+          <li>保存したJSONバックアップファイルを読み込むことで、機種変更やブラウザ移行時にも瞬時に全データを安全に復元できます。</li>
+        </ul>
+      </li>
+      <li><strong>アプリについて (About)</strong>:
+        <ul>
+          <li>バージョン情報、理念、オープンソースライセンス一覧を確認できます。</li>
+        </ul>
+      </li>
+    </ol>
+
+    <!-- Section 10 -->
+    <h2 id="section10">10. よくある質問・トラブルシューティング</h2>
+    
+    <div class="qa-box">
+      <div class="qa-q">Q1. アプリを閉じたりブラウザを更新（F5）したらデータは消えますか？</div>
+      <div class="qa-a"><strong>A.</strong> 消えません。データはお使いのブラウザ内部（IndexedDB）に自動永続化されます。ただし、ブラウザの「すべての閲覧履歴・サイトデータを削除」を実行すると消去される可能性があるため、定期的に設定画面から「JSONエクスポート」を行ってバックアップを保存することをお勧めします。</div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">Q2. インターネット接続がなくても動きますか？</div>
+      <div class="qa-a"><strong>A.</strong> 予定の閲覧・作成・メモ・課題管理など、AI分析以外のすべての機能はオフラインでも完全動作します。</div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">Q3. AI分析やAI一括登録が動作しません。</div>
+      <div class="qa-a"><strong>A.</strong> 画面右上のメニュー（<code>⋮</code>）＞「アプリ設定」を開き、「AI連携設定 (BYOK)」からAPIキーが正しく入力されているか確認し、「接続テスト」を行ってください。</div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">Q4. スマホのホーム画面からアプリのように起動したい（PWA機能）。</div>
+      <div class="qa-a"><strong>A.</strong> 
+        Android（Chrome）の場合は右上のメニューから「アプリをインストール」または「ホーム画面に追加」、iOS（Safari）の場合は共有メニューから「ホーム画面に追加」をタップすることで、通常のネイティブアプリ同様に全画面で快適に起動できるようになります。
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2026 Alirex Labs. All rights reserved.</p>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="守破離 (Shuhari) - 武道・芸事・技芸の修練と探求を記録・内省する次世代稽古ノートアプリ。AIによる稽古分析・定期レポート、完全ローカルファーストの安心設計。">
+  <title>守破離 (Shuhari) | 武道・芸事の修練と内省を深める稽古記録アプリ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* 守破離 公式「禅 (Zen)」テーマ パレット */
+      --bg-primary: #F4F1EA;
+      /* 和紙の風合いを帯びた淡い生成り (外側背景) */
+      --bg-surface: #FAF9F6;
+      /* 禅公式 サーフェス (オフホワイト・鳥の子色) */
+      --bg-card: #F0EDE6;
+      /* カード・枠内背景 (薄鈍色・生成りグレー) */
+      --bg-card-hover: #EAE6DE;
+      /* ホバー時のカード背景 */
+      --border-color: #D8D2C6;
+      /* 繊細な和風の境界線 */
+      --border-accent: #C2BAAC;
+      /* アクセント境界線 */
+      --color-primary: #2D3A3A;
+      /* 墨色 (Sumiiro) - 主見出し・ブランドアクセント */
+      --color-primary-dark: #1E2828;
+      --color-accent: #B88E56;
+      /* 落ち着いた金茶・枯草ベージュ (アクセント) */
+      --color-accent-light: #DFD5C5;
+      /* 淡い金茶 */
+      --color-urushi: #C33C23;
+      /* 本朱 (朱色アクセント) */
+      --text-main: #1A1A1A;
+      /* 墨文字 (主テキスト) */
+      --text-muted: #5A6065;
+      /* 鈍色・薄墨 (副テキスト・キャプション) */
+      --text-sub: #7A8086;
+      --shadow-sm: 0 2px 10px rgba(45, 58, 58, 0.05);
+      --shadow-md: 0 6px 24px rgba(45, 58, 58, 0.09);
+      --shadow-lg: 0 12px 36px rgba(45, 58, 58, 0.14);
+      --device-shadow: 0 16px 40px rgba(45, 58, 58, 0.18);
+
+      /* 守・破・離 カラー */
+      --shu-color: #2E4A62;
+      /* 藍墨 (Ai-sumi) */
+      --ha-color: #5D3F6A;
+      /* 深紫 (Fukamurasaki) */
+      --ri-color: #8C6B1B;
+      /* 飴金茶 (Amakincha) */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.85;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(184, 142, 86, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 88% 70%, rgba(45, 58, 58, 0.05) 0%, transparent 50%);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--color-accent);
+    }
+
+    /* Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 249, 246, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+    }
+
+    .nav-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(45, 58, 58, 0.1);
+    }
+
+    .nav-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+    }
+
+    .nav-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-left: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--text-main);
+    }
+
+    .nav-links a:hover {
+      color: var(--color-accent);
+    }
+
+    .btn-cta {
+      background-color: var(--color-primary);
+      color: var(--bg-surface) !important;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13.5px;
+      letter-spacing: 0.5px;
+      border: 1px solid var(--color-primary);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta:hover {
+      background-color: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1140px;
+      margin: 50px auto 80px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: var(--color-primary);
+      margin-bottom: 22px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .hero-badge span {
+      color: var(--color-accent);
+    }
+
+    .hero-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 44px;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 22px;
+      color: var(--color-primary);
+    }
+
+    .hero-title span {
+      color: var(--color-accent);
+      border-bottom: 2px solid var(--color-accent);
+      padding-bottom: 2px;
+    }
+
+    .hero-desc {
+      font-size: 16.5px;
+      color: var(--text-muted);
+      margin-bottom: 34px;
+      line-height: 1.95;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions .btn-cta {
+      padding: 13px 30px;
+      font-size: 15px;
+      border-radius: 30px;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--color-primary);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14.5px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: var(--bg-card);
+    }
+
+    /* Device Mockup Frame - 一貫したスマートフォンスタイル */
+    .device-mockup-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .device-mockup {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 500 / 905;
+      background: #FFFFFF;
+      border-radius: 28px;
+      padding: 7px;
+      border: 2px solid var(--border-color);
+      box-shadow: var(--device-shadow);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .device-mockup:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-accent);
+    }
+
+    .device-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background-color: var(--bg-card);
+      display: flex;
+    }
+
+    .device-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Concept Section (守・破・離) */
+    .section {
+      padding: 90px 24px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 4px;
+      color: var(--color-accent);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 32px;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      color: var(--color-primary);
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 50px auto;
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .concept-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 32px 24px;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .concept-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .concept-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .card-shu::before {
+      background: var(--shu-color);
+    }
+
+    .card-ha::before {
+      background: var(--ha-color);
+    }
+
+    .card-ri::before {
+      background: var(--ri-color);
+    }
+
+    .concept-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .card-shu .concept-badge {
+      color: var(--shu-color);
+      border-color: rgba(46, 74, 98, 0.3);
+    }
+
+    .card-ha .concept-badge {
+      color: var(--ha-color);
+      border-color: rgba(93, 63, 106, 0.3);
+    }
+
+    .card-ri .concept-badge {
+      color: var(--ri-color);
+      border-color: rgba(140, 107, 27, 0.3);
+    }
+
+    .concept-card h3 {
+      font-size: 18.5px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    .concept-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* Key Features Showcase */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      margin-top: 30px;
+    }
+
+    .feature-item {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 50px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-item:nth-child(even) {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .feature-item:nth-child(even) .feature-image-col {
+      order: 1;
+    }
+
+    .feature-item:nth-child(even) .feature-text-col {
+      order: 2;
+    }
+
+    .feature-item:hover {
+      border-color: var(--border-accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-category {
+      font-size: 12px;
+      color: var(--color-accent);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .feature-text-col h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 24px;
+      color: var(--color-primary);
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+
+    .feature-text-col p {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+
+    .feature-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .feature-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .feature-points li::before {
+      content: "✦";
+      color: var(--color-accent);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* Sub Features Grid */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .sub-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sub-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+    }
+
+    .sub-icon {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+
+    .sub-card h4 {
+      font-size: 16.5px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    .sub-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Privacy & Standalone Box */
+    .privacy-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-accent);
+      border-left: 6px solid var(--color-accent);
+      border-radius: 14px;
+      padding: 44px;
+      margin: 60px auto;
+      max-width: 960px;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+
+    .privacy-box h3 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 26px;
+      color: var(--color-primary);
+      margin-bottom: 14px;
+    }
+
+    .privacy-box p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto 28px auto;
+      line-height: 1.9;
+    }
+
+    .privacy-tags {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--color-primary);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      padding: 50px 24px 30px 24px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .footer-copy {
+      max-width: 1140px;
+      margin: 18px auto 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-sub);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .concept-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-item,
+      .feature-item:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-item:nth-child(even) .feature-image-col {
+        order: 0;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .device-mockup {
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <img src="images/app_icon.png" alt="守破離 アイコン" class="nav-logo-img">
+        <div>
+          <span class="nav-title">守破離</span>
+          <span class="nav-sub">SHUHARI</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#concept">理念・コンセプト</a>
+        <a href="#features">主要機能</a>
+        <a href="#privacy">安心の設計</a>
+        <a href="manual/html/index.html" target="_blank">操作マニュアル</a>
+        <a href="http://alirex-labs:8080/shuhari/#/home" class="btn-cta" target="_blank">Web版を開く</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>✦</span> 武道・芸事の探求と稽古録
+      </div>
+      <h1 class="hero-title">
+        稽古を刻み、<br>
+        <span>守破離</span>の境地へ。
+      </h1>
+      <p class="hero-desc">
+        居合道・合気道・剣道・茶道・華道など、道を志すあらゆる修練者のための稽古ノート。<br>
+        日々の気付き・師匠からの指導・課題を記録し、AIがあなたの内省と技の深化に伴走します。
+      </p>
+      <div class="hero-actions">
+        <a href="http://alirex-labs:8080/shuhari/#/home" class="btn-cta" target="_blank">今すぐ始める（登録不要）</a>
+        <a href="manual/html/index.html" class="btn-secondary" target="_blank">操作マニュアルを見る</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="device-mockup-wrapper">
+        <div class="device-mockup">
+          <div class="device-screen">
+            <img src="images/01_home_screen.png" alt="守破離 ホーム画面">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Concept Section (守・破・離) -->
+  <section id="concept" class="section">
+    <div class="section-tag">Philosophy</div>
+    <h2 class="section-title">技芸の成長段階を映す「守・破・離」</h2>
+    <p class="section-desc">
+      何百年と受け継がれてきた日本の修練哲学「守・破・離」。日々の稽古メモとAI分析が、あなたの修練の歩みを可視化します。
+    </p>
+
+    <div class="concept-grid">
+      <!-- 守 -->
+      <div class="concept-card card-shu">
+        <div class="concept-badge">守</div>
+        <h3>型を守り、基本を身につける</h3>
+        <p>
+          師の教えや流派の基本を忠実に守り、基礎基本を徹底的に身体に染み込ませる段階。<br>
+          稽古の頻度、日時、基本動作の振り返りを着実に記録します。
+        </p>
+      </div>
+
+      <!-- 破 -->
+      <div class="concept-card card-ha">
+        <div class="concept-badge">破</div>
+        <h3>他を学び、殻を破る</h3>
+        <p>
+          基本を土台としながら、新たな工夫や他の教えを取り入れ、自分の型を模索・発展させる段階。<br>
+          試行錯誤のメモや疑問点をAIとともに整理し、新たな気付きを得ます。
+        </p>
+      </div>
+
+      <!-- 離 -->
+      <div class="concept-card card-ri">
+        <div class="concept-badge">離</div>
+        <h3>型を離れ、独自の境地を開く</h3>
+        <p>
+          すべての型から自由になり、独自の自然な境地を確立する探求の段階。<br>
+          月間・年間の修練の軌跡を俯瞰し、生涯を通じた技芸の伴走者として支えます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="section-tag">Key Features</div>
+    <h2 class="section-title">修練を深めるための充実した機能</h2>
+    <p class="section-desc">
+      道場での稽古前・稽古中・稽古後、あらゆる瞬間で迷わず素早く使える洗練された操作性を追求しました。
+    </p>
+
+    <div class="features-list">
+      <!-- Feature 1: カレンダー＆予定管理 -->
+      <article class="feature-item">
+        <div class="feature-image-col">
+          <div class="device-mockup-wrapper">
+            <div class="device-mockup">
+              <div class="device-screen">
+                <img src="images/01_home_screen.png" alt="ホーム・月間カレンダー画面">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-text-col">
+          <div class="feature-category">Calendar & Schedules</div>
+          <h3>日本の祝日・行数切り替えに対応した月間カレンダー</h3>
+          <p>
+            稽古予定と実績を直感的に把握できる月間・日別カレンダー。日本の国民の祝日（振替休日・ハッピーマンデー対応）が自動で表示され、予定の密度に合わせて「2行・3行・4行」の表示高さを自由に変更できます。
+          </p>
+          <ul class="feature-points">
+            <li>国民の祝日自動判定・和風バッジ表示</li>
+            <li>月間カレンダーの表示行数（2/3/4行）動的切り替え</li>
+            <li>日別稽古カードからワンタップで評価・メモ入力</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Feature 2: 稽古予定・実績の作成 -->
+      <article class="feature-item">
+        <div class="feature-image-col">
+          <div class="device-mockup-wrapper">
+            <div class="device-mockup">
+              <div class="device-screen">
+                <img src="images/02_schedule_create_screen.png" alt="予定・実績作成画面">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-text-col">
+          <div class="feature-category">Direct Input & Voice</div>
+          <h3>音声入力 & 当日・過去日の直接実績入力</h3>
+          <p>
+            稽古後、道場の着替え中や帰路でも手軽に振り返りを残せるよう、高精度な音声入力（マイク）を搭載。日付が当日または過去の場合、★1〜5の星評価と実績メモ欄が自動展開され、予定と実績をワンステップで記録できます。
+          </p>
+          <ul class="feature-points">
+            <li>マイクボタンによるハンズフリー音声メモ入力</li>
+            <li>当日・過去日の星評価（★1〜5）クイック記録</li>
+            <li>稽古場所のGoogle Placesオートコンプリート & 地図起動</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Feature 3: AI一括予定作成 & AI分析 -->
+      <article class="feature-item">
+        <div class="feature-image-col">
+          <div class="device-mockup-wrapper">
+            <div class="device-mockup">
+              <div class="device-screen">
+                <img src="images/05_settings_screen.png" alt="設定・AI設定画面">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-text-col">
+          <div class="feature-category">AI Intelligence</div>
+          <h3>LINEやメールからAIが予定を一括抽出</h3>
+          <p>
+            道場連絡網やLINEグループに届いた「8月の稽古予定です。8/5
+            19:00〜…」といった雑多な文章をそのまま貼り付けるだけで、AIが日程・時間・場所・ジャンルを自動解析してカレンダーへ一括登録。登録済みの重複予定も賢く検知・自動除外します。
+          </p>
+          <ul class="feature-points">
+            <li>テキスト流し込みによるAI予定一括作成</li>
+            <li>Google Gemini・OpenAI・Claudeなどお好みのAIと連携</li>
+            <li>稽古メモからの課題自動抽出 & 定期伴走レポート</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Feature 4: 重点課題・備忘メモ -->
+      <article class="feature-item">
+        <div class="feature-image-col">
+          <div class="device-mockup-wrapper">
+            <div class="device-mockup">
+              <div class="device-screen">
+                <img src="images/03_task_list_screen.png" alt="重点課題画面">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-text-col">
+          <div class="feature-category">Tasks & Memos</div>
+          <h3>「守破離」ステージ別の重点課題管理</h3>
+          <p>
+            師匠から指摘された改善点や克服すべきテーマを「重点課題（タスク）」として管理。「守・破・離」のどの段階の課題かをラベル付けし、克服した課題はいつでも復元・参照可能です。
+          </p>
+          <ul class="feature-points">
+            <li>守・破・離ステージ別の課題優先度設定</li>
+            <li>期日付き・ジャンル別のメモ帳機能（独立タブ）</li>
+            <li>AIが過去の課題解決を自動サジェスト</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <!-- Sub Features Grid -->
+    <div class="sub-grid">
+      <div class="sub-card">
+        <div class="sub-icon">🎨</div>
+        <h4>和の美意識：3種のテーマ</h4>
+        <p>「禅（Zen）」「漆（Urushi）」「モダン（Modern）」の3つのデザインテーマをいつでも切り替え可能。夜間の稽古後にも目に優しいダークモードを完備。</p>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">🪪</div>
+        <h4>武道・芸事のデジタル名刺</h4>
+        <p>段位・所属道場・流派・入門年などを記載したデジタル名刺プロフィール。稽古仲間との交流やSNSシェアに役立ちます。</p>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">📦</div>
+        <h4>CSV / JSON エクスポート</h4>
+        <p>大切な稽古録をいつでもCSV形式やJSON形式で一括バックアップ・復元可能。外部ツールや表計算ソフトでの分析にも活用できます。</p>
+      </div>
+      <div class="sub-card">
+        <div class="sub-icon">🌐</div>
+        <h4>日英バイリンガル対応</h4>
+        <p>日本語と英語を完全にサポート。端末言語の自動検知はもちろん、アプリ内設定からいつでも手動で言語を切り替えられます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy & Standalone Section -->
+  <section id="privacy" class="section">
+    <div class="privacy-box">
+      <div class="hero-badge" style="margin-bottom: 14px;">
+        <span>🔒</span> Privacy First
+      </div>
+      <h3>登録不要・完全スタンドアロンの安心設計</h3>
+      <p>
+        「守破離」は煩わしいアカウント登録やログインを必要としません。<br>
+        アプリを開いた瞬間からすべての機能が使え、大切な稽古記録はすべてユーザーのお手元の端末（IndexedDB / ローカルストレージ）にのみ安全に保存されます。<br>
+        オフラインでも軽快に動作し、誰にも見られないプライベートな内省の場を保証します。
+      </p>
+      <div class="privacy-tags">
+        <span class="tag-item">✓ アカウント登録・ログイン不要</span>
+        <span class="tag-item">✓ 完全ローカルデータ保存</span>
+        <span class="tag-item">✓ オフライン動作対応</span>
+        <span class="tag-item">✓ 広告・トラッキング一切なし</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="images/app_icon.png" alt="守破離 アイコン">
+        <div>
+          <div
+            style="font-family: 'Shippori Mincho', serif; font-weight: bold; color: var(--color-primary); font-size: 18px;">
+            守破離 - Shuhari</div>
+          <div style="font-size: 12px; color: var(--text-muted);">武道・芸事の修練と内省を深める稽古ノート</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#concept">理念</a>
+        <a href="#features">機能紹介</a>
+        <a href="manual/html/index.html" target="_blank">操作マニュアル</a>
+        <a href="http://alirex-labs:8080/shuhari/#/home" class="btn-cta" target="_blank">アプリを開く</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <div>&copy; 2026 Alirex Labs. All Rights Reserved.</div>
+      <div>Designed with Zen Aesthetics • Version 0.9.1</div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
